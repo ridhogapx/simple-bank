@@ -3,6 +3,7 @@ package db
 import (
 	"database/sql"
 	"fmt"
+	"os"
 	"testing"
 )
 
@@ -20,4 +21,5 @@ func TestMain(m *testing.M) {
 		fmt.Printf("Failed to connect database: %v", m)
 	}
 	testQueries = New(conn)
+	os.Exit(m.Run())
 }
