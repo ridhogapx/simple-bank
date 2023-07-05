@@ -47,3 +47,25 @@ func TestGetAccount(t *testing.T) {
 	require.Equal(t, newAccount.Balance, list.Balance, "Balance is not as expected")
 
 }
+
+func TestUpdateAccount(t *testing.T) {
+	account, err := testQueries.GetAccount(context.Background(), 8)
+
+	newChanged := UpdateAccountParams{
+		ID:      8,
+		Balance: 5000,
+	}
+
+	updated, errChanged := testQueries.UpdateAccount(context.Background(), newChanged)
+
+	// Make sure that err is nil, or there is nothing error
+	require.Nil(t, err)
+	require.Nil(t, errChanged)
+	// Make sure that record in database is not empty
+	require.NotEmpty(t, account)
+	require.NotEmpty(t, updated)
+
+	// Make sure updated is as we expected
+	require.Equal(t, newChanged.Balance, updated.Balance)
+
+}
