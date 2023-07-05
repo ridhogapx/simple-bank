@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestCreateAccount(t *testing.T) {
+func generateRandomAccount(t *testing.T) Account {
 	arg := CreateAccountParams{
 		Owner:    util.RandomOwner(),
 		Balance:  util.RandomBalance(),
@@ -26,4 +26,9 @@ func TestCreateAccount(t *testing.T) {
 	require.Equal(t, arg.Balance, account.Balance, "Balance is not as expected")
 	require.Equal(t, arg.Currency, account.Currency, "Currency is not as expected")
 
+	return account
+}
+
+func TestCreateAccount(t *testing.T) {
+	generateRandomAccount(t)
 }
