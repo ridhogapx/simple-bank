@@ -17,6 +17,7 @@ OFFSET $2;
 SELECT * FROM accounts
 WHERE id = $1 LIMIT 1;
 
--- name: UpdateAccount :exec
+-- name: UpdateAccount :one
 UPDATE accounts SET balance = $2
-WHERE id = $1;
+WHERE id = $1
+RETURNING *;
