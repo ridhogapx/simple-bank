@@ -69,3 +69,11 @@ func TestUpdateAccount(t *testing.T) {
 	require.Equal(t, newChanged.Balance, updated.Balance)
 
 }
+
+func TestDeleteAccount(t *testing.T) {
+	err := testQueries.DeleteAccount(context.Background(), 2)
+
+	// Check if there's error when deleting record
+	require.Nil(t, err)
+
+}
