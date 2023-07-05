@@ -38,42 +38,12 @@ func (q *Queries) CreateAccount(ctx context.Context, arg CreateAccountParams) (A
 	return i, err
 }
 
-const createEntry = `-- name: CreateEntry :one
-INSERT INTO entries (
- account_id,
- amount
-) VALUES (
-  $1, $2
-) RETURNING id, account_id, amount
-`
-
-type CreateEntryParams struct {
-	AccountID int64 `json:"account_id"`
-	Amount    int64 `json:"amount"`
-}
-
-func (q *Queries) CreateEntry(ctx context.Context, arg CreateEntryParams) (Entry, error) {
-	row := q.db.QueryRowContext(ctx, createEntry, arg.AccountID, arg.Amount)
-	var i Entry
-	err := row.Scan(&i.ID, &i.AccountID, &i.Amount)
-	return i, err
-}
-
 const deleteAccount = `-- name: DeleteAccount :exec
 DELETE FROM accounts WHERE id = $1
 `
 
 func (q *Queries) DeleteAccount(ctx context.Context, id int64) error {
 	_, err := q.db.ExecContext(ctx, deleteAccount, id)
-	return err
-}
-
-const deleteEntry = `-- name: DeleteEntry :exec
-DELETE FROM entries WHERE id = $1
-`
-
-func (q *Queries) DeleteEntry(ctx context.Context, id int64) error {
-	_, err := q.db.ExecContext(ctx, deleteEntry, id)
 	return err
 }
 
@@ -136,34 +106,6 @@ func (q *Queries) ListAccounts(ctx context.Context, arg ListAccountsParams) ([]A
 	return items, nil
 }
 
-const listEntries = `-- name: ListEntries :many
-SELECT id, account_id, amount FROM entries
-WHERE account_id = $1
-`
-
-func (q *Queries) ListEntries(ctx context.Context, accountID int64) ([]Entry, error) {
-	rows, err := q.db.QueryContext(ctx, listEntries, accountID)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	var items []Entry
-	for rows.Next() {
-		var i Entry
-		if err := rows.Scan(&i.ID, &i.AccountID, &i.Amount); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
 const updateAccount = `-- name: UpdateAccount :one
 UPDATE accounts SET balance = $2
 WHERE id = $1
@@ -185,23 +127,5 @@ func (q *Queries) UpdateAccount(ctx context.Context, arg UpdateAccountParams) (A
 		&i.Currency,
 		&i.CreatedAt,
 	)
-	return i, err
-}
-
-const updateEntry = `-- name: UpdateEntry :one
-UPDATE entries SET amount = $2
-WHERE id = $1
-RETURNING id, account_id, amount
-`
-
-type UpdateEntryParams struct {
-	ID     int64 `json:"id"`
-	Amount int64 `json:"amount"`
-}
-
-func (q *Queries) UpdateEntry(ctx context.Context, arg UpdateEntryParams) (Entry, error) {
-	row := q.db.QueryRowContext(ctx, updateEntry, arg.ID, arg.Amount)
-	var i Entry
-	err := row.Scan(&i.ID, &i.AccountID, &i.Amount)
 	return i, err
 }
