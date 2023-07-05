@@ -10,4 +10,4 @@ dropdb:
 migrateup:
 	migrate -path db/migration -database "postgresql://root:root@localhost:5432/simple_bank?sslmode=disable" -verbose up
 
-.PHONY: postgres createdb dropdb
+.PHONY: postgres createdb dropdb migrateup
