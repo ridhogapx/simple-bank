@@ -31,3 +31,7 @@ func RandomString(n int) string {
 func RandomOwner() string {
 	return RandomString(6)
 }
+
+func RandomMoney() int64 {
+	return RandomInt(0, 5000)
+}
