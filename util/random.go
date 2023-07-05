@@ -35,3 +35,9 @@ func RandomOwner() string {
 func RandomBalance() int64 {
 	return RandomInt(0, 5000)
 }
+
+func RandomCurrency() string {
+	currencies := [3]string{"USD", "EUR", "IDR"}
+
+	return currencies[rand.Intn(len(currencies))]
+}
