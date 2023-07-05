@@ -21,3 +21,6 @@ WHERE id = $1 LIMIT 1;
 UPDATE accounts SET balance = $2
 WHERE id = $1
 RETURNING *;
+
+-- name: DeleteAccount :exec
+DELETE FROM accounts WHERE id = $1;
