@@ -24,3 +24,11 @@ RETURNING *;
 
 -- name: DeleteAccount :exec
 DELETE FROM accounts WHERE id = $1;
+
+-- name: CreateEntries :one
+INSERT INTO entries (
+ account_id,
+ ammount
+) VALUES (
+  $1, $2
+) RETURNING *;
