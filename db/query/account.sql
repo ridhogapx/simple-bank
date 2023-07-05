@@ -36,3 +36,8 @@ INSERT INTO entries (
 -- name: ListEntries :many
 SELECT * FROM entries
 WHERE account_id = $1;
+
+-- name: UpdateEntry :one
+UPDATE entries SET amount = $2
+WHERE id = $1
+RETURNING *;
