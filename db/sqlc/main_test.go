@@ -18,7 +18,7 @@ func TestMain(m *testing.M) {
 	conn, err := sql.Open(dbDriver, dbSource)
 
 	if err != nil {
-		fmt.Printf("Failed to connect database: %v", m)
+		fmt.Printf("Failed to connect database: %v", err)
 	}
 	testQueries = New(conn)
 	os.Exit(m.Run())
