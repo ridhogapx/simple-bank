@@ -28,7 +28,7 @@ DELETE FROM accounts WHERE id = $1;
 -- name: CreateEntries :one
 INSERT INTO entries (
  account_id,
- ammount
+ amount
 ) VALUES (
   $1, $2
 ) RETURNING *;
