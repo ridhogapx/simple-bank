@@ -38,7 +38,7 @@ func (q *Queries) CreateAccount(ctx context.Context, arg CreateAccountParams) (A
 	return i, err
 }
 
-const createEntries = `-- name: CreateEntries :one
+const createEntry = `-- name: CreateEntry :one
 INSERT INTO entries (
  account_id,
  amount
@@ -47,13 +47,13 @@ INSERT INTO entries (
 ) RETURNING id, account_id, amount
 `
 
-type CreateEntriesParams struct {
+type CreateEntryParams struct {
 	AccountID int64 `json:"account_id"`
 	Amount    int64 `json:"amount"`
 }
 
-func (q *Queries) CreateEntries(ctx context.Context, arg CreateEntriesParams) (Entry, error) {
-	row := q.db.QueryRowContext(ctx, createEntries, arg.AccountID, arg.Amount)
+func (q *Queries) CreateEntry(ctx context.Context, arg CreateEntryParams) (Entry, error) {
+	row := q.db.QueryRowContext(ctx, createEntry, arg.AccountID, arg.Amount)
 	var i Entry
 	err := row.Scan(&i.ID, &i.AccountID, &i.Amount)
 	return i, err
@@ -114,6 +114,34 @@ func (q *Queries) ListAccounts(ctx context.Context, arg ListAccountsParams) ([]A
 			&i.Currency,
 			&i.CreatedAt,
 		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const listEntries = `-- name: ListEntries :many
+SELECT id, account_id, amount FROM entries
+WHERE account_id = $1
+`
+
+func (q *Queries) ListEntries(ctx context.Context, accountID int64) ([]Entry, error) {
+	rows, err := q.db.QueryContext(ctx, listEntries, accountID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Entry
+	for rows.Next() {
+		var i Entry
+		if err := rows.Scan(&i.ID, &i.AccountID, &i.Amount); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
