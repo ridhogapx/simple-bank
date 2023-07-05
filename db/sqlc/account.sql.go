@@ -38,6 +38,27 @@ func (q *Queries) CreateAccount(ctx context.Context, arg CreateAccountParams) (A
 	return i, err
 }
 
+const createEntries = `-- name: CreateEntries :one
+INSERT INTO entries (
+ account_id,
+ amount
+) VALUES (
+  $1, $2
+) RETURNING id, account_id, amount
+`
+
+type CreateEntriesParams struct {
+	AccountID int64 `json:"account_id"`
+	Amount    int64 `json:"amount"`
+}
+
+func (q *Queries) CreateEntries(ctx context.Context, arg CreateEntriesParams) (Entry, error) {
+	row := q.db.QueryRowContext(ctx, createEntries, arg.AccountID, arg.Amount)
+	var i Entry
+	err := row.Scan(&i.ID, &i.AccountID, &i.Amount)
+	return i, err
+}
+
 const deleteAccount = `-- name: DeleteAccount :exec
 DELETE FROM accounts WHERE id = $1
 `
