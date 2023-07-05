@@ -32,3 +32,18 @@ func generateRandomAccount(t *testing.T) Account {
 func TestCreateAccount(t *testing.T) {
 	generateRandomAccount(t)
 }
+
+// Test case for getting account by id
+func TestGetAccount(t *testing.T) {
+	newAccount := generateRandomAccount(t)
+
+	list, err := testQueries.GetAccount(context.Background(), newAccount.ID)
+
+	require.Nil(t, err)
+	require.NotEmpty(t, list)
+
+	require.Equal(t, newAccount.ID, list.ID, "ID is not as expected")
+	require.Equal(t, newAccount.Owner, list.Owner, "Owner is not as expected")
+	require.Equal(t, newAccount.Balance, list.Balance, "Balance is not as expected")
+
+}
