@@ -71,7 +71,7 @@ func TestUpdateAccount(t *testing.T) {
 }
 
 func TestDeleteAccount(t *testing.T) {
-	err := testQueries.DeleteAccount(context.Background(), 2)
+	err := testQueries.DeleteAccount(context.Background(), 1)
 
 	// Check if there's error when deleting record
 	require.Nil(t, err)
