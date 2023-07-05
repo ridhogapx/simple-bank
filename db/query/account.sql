@@ -32,3 +32,7 @@ INSERT INTO entries (
 ) VALUES (
   $1, $2
 ) RETURNING *;
+
+-- name: ListEntries :many
+SELECT * FROM entries
+WHERE account_id = $1;
