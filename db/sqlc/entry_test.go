@@ -65,3 +65,9 @@ func TestUpdateEntry(t *testing.T) {
 	require.Nil(t, err)
 	require.NotEmpty(t, updated)
 }
+
+func TestDeleteEntry(t *testing.T) {
+	err := testQueries.DeleteEntry(context.Background(), 7)
+
+	require.Nil(t, err)
+}
