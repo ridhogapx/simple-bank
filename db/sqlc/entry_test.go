@@ -52,3 +52,16 @@ func TestListEntry(t *testing.T) {
 	require.Equal(t, expected, list)
 
 }
+
+func TestUpdateEntry(t *testing.T) {
+	arg := UpdateEntryParams{
+		ID:     2,
+		Amount: 9000,
+	}
+
+	updated, err := testQueries.UpdateEntry(context.Background(), arg)
+
+	// Case: Should not error and not empty
+	require.Nil(t, err)
+	require.NotEmpty(t, updated)
+}
