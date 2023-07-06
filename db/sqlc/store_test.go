@@ -14,7 +14,7 @@ func TestTransaction(t *testing.T) {
 	account_b := generateRandomAccount(t)
 
 	// Balanace that we're gonna transfer
-	amount := int64(500)
+	amount := int64(5)
 
 	// Should be run in n concurrent
 	n := 5
@@ -31,12 +31,8 @@ func TestTransaction(t *testing.T) {
 				Amount:        amount,
 			})
 
-			if err != nil {
-				errs <- err
-			}
-
+			errs <- err
 			results <- result
-
 		}()
 	}
 
