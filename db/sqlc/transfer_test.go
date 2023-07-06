@@ -9,9 +9,9 @@ import (
 
 func TestCreateTransfer(t *testing.T) {
 	arg := CreateTransferParams{
-		FromAccountID: 3,
-		ToAccountID:   5,
-		Amount:        3000,
+		FromAccountID: 5,
+		ToAccountID:   3,
+		Amount:        10000,
 	}
 
 	transfer, err := testQueries.CreateTransfer(context.Background(), arg)
