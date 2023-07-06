@@ -9,8 +9,8 @@ import (
 
 func TestCreateEntry(t *testing.T) {
 	arg := CreateEntryParams{
-		AccountID: 5,
-		Amount:    2300,
+		AccountID: 3,
+		Amount:    6000,
 	}
 
 	entry, err := testQueries.CreateEntry(context.Background(), arg)
@@ -18,4 +18,9 @@ func TestCreateEntry(t *testing.T) {
 	// Test Case
 	require.Nil(t, err)
 	require.NotEmpty(t, entry)
+
+	// Should be equal as we input it
+	require.Equal(t, arg.AccountID, entry.AccountID)
+	require.Equal(t, arg.Amount, entry.Amount)
+
 }
