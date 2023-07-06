@@ -9,8 +9,8 @@ import (
 
 func TestCreateEntry(t *testing.T) {
 	arg := CreateEntryParams{
-		AccountID: 5,
-		Amount:    7000,
+		AccountID: 10,
+		Amount:    50000,
 	}
 
 	entry, err := testQueries.CreateEntry(context.Background(), arg)
