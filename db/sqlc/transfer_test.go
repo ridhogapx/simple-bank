@@ -44,3 +44,16 @@ func TestListTransfer(t *testing.T) {
 	// Case: Should be same as we expected
 	require.Equal(t, expected, transfer)
 }
+
+func TestUpdateTransfer(t *testing.T) {
+	arg := UpdateTransferParams{
+		ID:          4,
+		ToAccountID: 10,
+		Amount:      23500,
+	}
+
+	updated, err := testQueries.UpdateTransfer(context.Background(), arg)
+
+	require.Nil(t, err)
+	require.NotEmpty(t, updated)
+}
