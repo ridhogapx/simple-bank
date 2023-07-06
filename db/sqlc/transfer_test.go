@@ -19,3 +19,11 @@ func TestCreateTransfer(t *testing.T) {
 	require.Nil(t, err)
 	require.NotEmpty(t, transfer)
 }
+
+func TestListTransfer(t *testing.T) {
+	transfer, err := testQueries.ListTransfer(context.Background(), 3)
+
+	// Case: Make sure there's no error and data is not empty
+	require.Nil(t, err)
+	require.NotEmpty(t, transfer)
+}
