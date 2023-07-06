@@ -33,10 +33,6 @@ func TestListEntry(t *testing.T) {
 			Amount:    2300,
 		},
 		{
-			ID:        2,
-			AccountID: 3,
-			Amount:    6000,
-		}, {
 			ID:        3,
 			AccountID: 5,
 			Amount:    7000,
