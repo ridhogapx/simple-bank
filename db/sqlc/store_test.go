@@ -2,6 +2,7 @@ package db
 
 import (
 	"context"
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -14,6 +15,10 @@ func TestTransaction(t *testing.T) {
 	// Generate random account
 	account_a := generateRandomAccount(t)
 	account_b := generateRandomAccount(t)
+
+	// Logging
+	fmt.Printf(" >> Account A Balance: %v", account_a.Balance)
+	fmt.Printf(" >> Account B Balance: %v", account_b.Balance)
 
 	// Balanace that we're gonna transfer
 	amount := int64(5)
@@ -32,6 +37,9 @@ func TestTransaction(t *testing.T) {
 				ToAccountID:   account_b.ID,
 				Amount:        amount,
 			})
+
+			fmt.Printf(" >> Account A Transfer: %v", result.FromEntry.Amount)
+			fmt.Printf(" >> Account B Transfer: %v", result.ToEntry.Amount)
 
 			errs <- err
 			results <- result
