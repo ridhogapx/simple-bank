@@ -3,6 +3,8 @@ package db
 import (
 	"context"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestTransaction(t *testing.T) {
@@ -34,6 +36,15 @@ func TestTransaction(t *testing.T) {
 			errs <- err
 			results <- result
 		}()
+	}
+
+	for i := 0; i < n; i++ {
+		errResult := <-errs
+		transferResult := <-results
+
+		assert.Nil(t, errResult)
+		assert.NotEmpty(t, transferResult)
+
 	}
 
 }
